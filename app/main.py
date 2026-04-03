@@ -1,6 +1,7 @@
-from fastapi import FastAPI
-from app.routes import patient
+from fastapi import FastAPI, Depends
+from app.middleware.auth import validate_api_key
+import app.routes as routes
 
-app = FastAPI()
+app = FastAPI(dependencies=[Depends(validate_api_key)])
 
-app.include_router(patient.router)
+app.include_router(routes.patient)

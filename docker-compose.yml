@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:18
-    container_name: legacy_postgres
+    container_name: lab_db
     restart: always
     env_file:
       - .env
@@ -9,6 +9,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   api:
     build: .
