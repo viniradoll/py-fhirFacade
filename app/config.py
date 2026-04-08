@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     postgres_db: str
     postgres_host: str
     postgres_port: int = 5432
+    api_key: str
 
     @property
     def db_url(self) -> str:

@@ -1,4 +1,3 @@
-from contextlib import contextmanager
 from psycopg_pool import ConnectionPool
 from psycopg.rows import dict_row
 from config import settings
@@ -18,7 +17,6 @@ def close_pool() -> None:
     if _pool:
         _pool.close()
 
-@contextmanager
 def get_db():
     with _pool.connection() as conn:
         yield conn
