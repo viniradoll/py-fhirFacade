@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from db.connection import QueryRunner, get_db
 from engine.registry import resolve
+from datetime import date
 
 router = APIRouter(prefix="/fhir")
 
@@ -33,12 +34,20 @@ def get_resource(
     return result
 
 @router.get("/metadata")
-def capability_statement(db: QueryRunner = Depends(get_query_runner)) -> dict:
+def capability_statement() -> dict:
     from engine.registry import registered_resources
+
     return {
         "resourceType": "CapabilityStatement",
         "status": "active",
         "kind": "instance",
+        "date": date.today(),
+        "format": ["json"],
+        "fhirVersion": "4.0.1",
+        "implementation": {
+            "description": "FHIR Facade over legacy laboratory database",
+            "url": "localhost:8000",
+        },
         "rest": [{
             "mode": "server",
             "resource": [
